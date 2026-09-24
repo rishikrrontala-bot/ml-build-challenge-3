@@ -6,6 +6,8 @@
 
 *Facts read from the live Devpost page on 2026-09-23. ⚠ = unconfirmed, so verify before relying on it.*
 
+> **Re-verified 2026-09-24 00:00 ET (cloud session).** devpost.com is blocked by this environment's egress policy, so the Devpost pages could not be opened directly. Re-checked through the search index's copies of the overview and third-party listings: deadline "Oct 5, 2026 @ 5:00pm PDT" ✔, "Judges will be announced on 9/21/2026" ✔, teams of 1–5 with solo allowed ✔, open to high-school and college students ✔. ⚠ One aggregator (Startup Grants India) says "Apply by 1 Oct". Devpost is authoritative, but the build plan finishes everything before Oct 1 so this can't bite. Prior editions: 1.0 `ml-empowerment-build-challenge.devpost.com` (Apr 7–Jun 16 2026), 2.0 `ml-empowerment-2.devpost.com` (Jun 30–Jul 31 2026). See `research/RESEARCH-BRIEF.md`.
+
 ## Eligibility
 Ages 13+, students only.
 
