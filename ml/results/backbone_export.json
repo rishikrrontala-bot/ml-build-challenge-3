@@ -1,0 +1,10 @@
+{
+  "patches": 31,
+  "bytes": 7458962,
+  "folded_f32_max_abs_emb": 1.0728836059570312e-05,
+  "folded_f32_max_abs_score": 2.8014183044433594e-06,
+  "f16_max_abs_emb": 0.01532059907913208,
+  "f16_max_abs_score": 0.004507005214691162,
+  "f16_emb_cosine_min": 0.9999755620956421,
+  "f16_top1_agreement": 1.0
+}
