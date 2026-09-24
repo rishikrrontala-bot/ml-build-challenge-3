@@ -10,6 +10,7 @@ Running log for the unattended cloud build. **A resumed session should read this
 | When (ET) | Hours to deadline | Phase |
 |---|---|---|
 | Wed Sep 23 2026 · 10:39 PM EDT | 285.3 h | 0: kickoff |
+| Wed Sep 23 2026 · 10:55 PM EDT | 285.1 h | 1–3 done (research + concept pushed); starting ML pipeline |
 
 ## Phase plan (hackathon-win Phase 4 budget, backwards from the 24 h-early target)
 
@@ -17,9 +18,9 @@ Running log for the unattended cloud build. **A resumed session should read this
 
 | Phase | Share | Gate (must be done by, ET) |
 |---|---|---|
-| 0. Countdown + tool check | – | Sep 23 |
-| 1–2. Research: event facts, 5–8 verified winners, research brief | – | Sep 24 |
-| 3. Concepts ×3 scored, pick, CONCEPT.md pushed | – | Sep 24 |
+| 0. Countdown + tool check ✅ | – | Sep 23 |
+| 1–2. Research: event facts, 5–8 verified winners, research brief ✅ | – | Sep 24 |
+| 3. Concepts ×3 scored, pick, CONCEPT.md pushed ✅ (**Brackets**) | – | Sep 24 |
 | 4. Design direction: PRODUCT.md + DESIGN.md | – | Sep 25 |
 | 5. Core build: the wow moment end to end, demo path, model + eval, tests, CI, deploy | ~50 % | Sep 29 |
 | 6. Quality passes: critique → audit → polish, live headless pass | (buffer) | Sep 30 |
@@ -41,3 +42,20 @@ Running log for the unattended cloud build. **A resumed session should read this
 ## Log
 
 - **Phase 0 (Sep 23, 10:39 PM ET, 285.3 h left):** kickoff. Read CLAUDE.md, HACKATHON.md, the hackathon-win skill + references + templates. Tool check done (above).
+- **Phases 1–3 (Sep 23, 10:55 PM ET, 285.1 h left):** research + concept pushed (`eed83dd`). Devpost is blocked, so the 7 winners were verified via search index + independent sources + cloned repos (`research/winners/_VERIFICATION.md`). Concept **A. Brackets** (non-speech SDH sound captions, on-device, trained head on YAMNet embeddings) scored 4.60 vs 4.00 / 3.65. Deadline re-check: Oct 5 5 PM PDT confirmed via index; one aggregator says "apply by Oct 1", so **aim to be fully submittable before Oct 1**.
+- **Rishik's instruction (10:55 PM ET):** save (commit + push) at **11:20 PM ET** and whenever credits may be running low. This session can't see the credit balance, so **push after every step**.
+
+## Resume guide (if this session dies)
+
+The work dir `/home/user/work` (data, venv) is NOT in the repo; recreate it:
+```bash
+mkdir -p /home/user/work/data && cd /home/user/work
+GIT_LFS_SKIP_SMUDGE=1 git clone --depth 1 https://github.com/karolpiczak/ESC-50 data/ESC-50   # 1.4 GB, 2000 clips
+curl -o data/yamnet.h5 https://storage.googleapis.com/audioset/yamnet.h5                    # YAMNet Keras weights
+curl -o data/mini_speech_commands.zip https://storage.googleapis.com/download.tensorflow.org/data/mini_speech_commands.zip
+git clone --depth 1 --filter=blob:none --sparse https://github.com/tensorflow/models tfmodels && (cd tfmodels && git sparse-checkout set research/audioset/yamnet)
+python3 -m venv venv && venv/bin/pip install "tensorflow-cpu==2.18.*" "tf_keras==2.18.*" tensorflowjs numpy scipy soundfile resampy scikit-learn pandas sed_eval matplotlib
+```
+(`scaper` fails to build here because of soxbindings, so we use our own soundscape mixer.)
+
+ML plan (see CONCEPT.md): TS log-mel front end (YAMNet params: 16 kHz, 25 ms/10 ms STFT, 512 FFT, 64 mel 125–7500 Hz, log(x+0.001), 96-frame patches hop 48) → YAMNet backbone in TF.js (self-hosted, float16) → our MLP head (trained on ESC-50 folds 1–4, energy-gated frame labels + speech/background negatives) → hysteresis post-processing → DCMP-style caption writer. Eval: ESC-50 5-fold CV clip accuracy; held-out fold-5 synthetic soundscapes with sed_eval segment/event F1; false captions per minute on speech-only audio; all vs a zero-training baseline that maps YAMNet's AudioSet labels.
